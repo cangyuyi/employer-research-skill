@@ -1,0 +1,35 @@
+{
+  "artifacts": [
+    {
+      "id": "main",
+      "path": "report.md",
+      "role": "report",
+      "check_citations": true
+    },
+    {
+      "id": "audit",
+      "path": "audit.md",
+      "role": "audit"
+    }
+  ],
+  "source_ids": [
+    "S01"
+  ],
+  "rules": [
+    {
+      "id": "synthetic_notice",
+      "type": "must_contain",
+      "text": "合成材料，不是企业事实"
+    },
+    {
+      "id": "withdrawn",
+      "type": "must_not_contain",
+      "text": "合成补贴900-1200元必定兑现"
+    },
+    {
+      "id": "vacancy_scope",
+      "type": "must_contain",
+      "text": "当前空缺未确认"
+    }
+  ]
+}

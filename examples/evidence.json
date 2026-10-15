@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0",
+  "as_of": "2026-10-15",
+  "notice": "以下为合成材料，不是企业事实。",
+  "sources": [
+    {
+      "id": "S01",
+      "title": "合成测试资料：虚构岗位与金额",
+      "publisher": "合成测试机构",
+      "location": "https://example.invalid/synthetic-record",
+      "status": "read",
+      "kind": "synthetic_fixture",
+      "published_at": "2026-10-14",
+      "accessed_at": "2026-10-15",
+      "data_as_of": "2025",
+      "locator": "合成表格第1行与合成招聘字段",
+      "limitations": "仅演示格式，不可作为真实企业来源。"
+    }
+  ],
+  "claims": [
+    {
+      "id": "C01",
+      "text": "合成示例金额换算为1.23亿元。",
+      "type": "public_record",
+      "status": "supported",
+      "source_ids": [
+        "S01"
+      ],
+      "locator": "合成表格第1行",
+      "calculation": {
+        "kind": "scale",
+        "raw": "123000000",
+        "divisor": "100000000",
+        "reported": "1.23",
+        "decimals": 2
+      }
+    },
+    {
+      "id": "C02",
+      "text": "建议核实具体工作内容与薪酬结构。",
+      "type": "recommendation",
+      "status": "analysis",
+      "source_ids": []
+    }
+  ],
+  "career_profiles": [
+    {
+      "id": "J01",
+      "title": "合成设备工程师（不是实际招聘）",
+      "source_ids": [
+        "S01"
+      ],
+      "sample_status": "historical_sample",
+      "current_vacancy_confirmed": false,
+      "relevance": "仅示范岗位字段，不能据此认定专业资格。",
+      "compensation": {
+        "raw": "合成广告月薪8000-10000元",
+        "period": "month",
+        "currency": "CNY",
+        "normalized": null
+      }
+    }
+  ]
+}

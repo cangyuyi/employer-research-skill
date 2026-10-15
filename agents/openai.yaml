@@ -1,0 +1,4 @@
+interface:
+  display_name: "企业与行业岗位调查"
+  short_description: "核验企业与行业岗位的证据、薪酬和时效，交付可追溯报告并复核版本一致性"
+  default_prompt: "使用 $company-job-investigation 调查目标企业或行业相关岗位，核验主体、专业关联、招聘时效与薪酬口径，区分事实和分析，并生成带来源的报告或审校已有材料。"

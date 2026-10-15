@@ -1,0 +1,418 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/cangyuyi/employer-research-skill/blob/main/schemas/evidence.schema.json",
+  "title": "Employer research evidence 1.0",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "as_of",
+    "sources",
+    "claims"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "as_of": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "claims": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/claim"
+      }
+    },
+    "career_profiles": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/career"
+      }
+    }
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "publisher",
+        "location",
+        "accessed_at",
+        "status"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "publisher": {
+          "type": "string",
+          "minLength": 1
+        },
+        "location": {
+          "type": "string",
+          "minLength": 1
+        },
+        "accessed_at": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "status": {
+          "enum": [
+            "read",
+            "snippet_only",
+            "inaccessible",
+            "excluded",
+            "unconfirmed"
+          ]
+        },
+        "published_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^\\d{4}(-\\d{2})?(-\\d{2})?$"
+        },
+        "data_as_of": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^\\d{4}(-\\d{2})?(-\\d{2})?$"
+        },
+        "local_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        },
+        "kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "recorded_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^\\d{4}(-\\d{2})?(-\\d{2})?$"
+        },
+        "consent_scope": {
+          "type": "string",
+          "minLength": 1
+        },
+        "locator": {
+          "type": "string",
+          "minLength": 1
+        },
+        "background_purpose": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "calculation": {
+      "type": "object",
+      "required": [
+        "kind",
+        "reported"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "scale",
+            "yoy"
+          ]
+        },
+        "decimals": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 12
+        },
+        "raw": {
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "divisor": {
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "reported": {
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "current": {
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "baseline": {
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "current_period": {
+          "type": "string",
+          "minLength": 1
+        },
+        "baseline_period": {
+          "type": "string",
+          "minLength": 1
+        },
+        "current_scope": {
+          "type": "string",
+          "minLength": 1
+        },
+        "baseline_scope": {
+          "type": "string",
+          "minLength": 1
+        },
+        "current_year": {
+          "type": "integer"
+        },
+        "baseline_year": {
+          "type": "integer"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "scale"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "raw",
+              "divisor"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "yoy"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "current",
+              "baseline",
+              "current_year",
+              "baseline_year",
+              "current_period",
+              "baseline_period",
+              "current_scope",
+              "baseline_scope"
+            ]
+          }
+        }
+      ]
+    },
+    "claim": {
+      "type": "object",
+      "required": [
+        "id",
+        "text",
+        "type",
+        "status",
+        "source_ids"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "enum": [
+            "public_record",
+            "company_statement",
+            "interview_statement",
+            "analysis",
+            "recommendation"
+          ]
+        },
+        "status": {
+          "enum": [
+            "supported",
+            "conflicting",
+            "historical",
+            "unverified",
+            "analysis"
+          ]
+        },
+        "source_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "locator": {
+          "type": "string",
+          "minLength": 1
+        },
+        "calculation": {
+          "$ref": "#/$defs/calculation"
+        }
+      }
+    },
+    "compensation": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "raw",
+        "period"
+      ],
+      "properties": {
+        "raw": {
+          "type": "string",
+          "minLength": 1
+        },
+        "period": {
+          "enum": [
+            "hour",
+            "day",
+            "week",
+            "month",
+            "quarter",
+            "year",
+            "task",
+            "unknown"
+          ]
+        },
+        "currency": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "normalized": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "normalization_basis": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "type": "object",
+            "properties": {
+              "period": {
+                "const": "unknown"
+              }
+            },
+            "required": [
+              "period"
+            ]
+          },
+          "then": {
+            "properties": {
+              "normalized": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "career": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "source_ids",
+        "sample_status"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "sample_status": {
+          "enum": [
+            "current_cycle_sample",
+            "historical_sample",
+            "industry_reference",
+            "unknown"
+          ]
+        },
+        "current_vacancy_confirmed": {
+          "type": "boolean"
+        },
+        "vacancy_checked_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^\\d{4}(-\\d{2})?(-\\d{2})?$"
+        },
+        "vacancy_evidence": {
+          "type": "string",
+          "minLength": 1
+        },
+        "application_deadline": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^\\d{4}(-\\d{2})?(-\\d{2})?$"
+        },
+        "compensation": {
+          "$ref": "#/$defs/compensation"
+        }
+      }
+    }
+  }
+}
